@@ -19,8 +19,8 @@ class Window(models.Model):
     height = models.PositiveIntegerField()
 
 class Construction(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='structures')
-    windows = models.ManyToManyField(Window, related_name='structures')
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='constructions')
+    windows = models.ManyToManyField(Window, related_name='constructions')
 
 class Lamination(models.Model):
     name = models.CharField(max_length=100)

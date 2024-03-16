@@ -1,7 +1,7 @@
 # views.py
 from rest_framework import viewsets
 from .models import Order, Window, Construction, Lamination, Glazing, Profile, Configuration
-from .serializers import OrderSerializer, WindowSerializer, StructureSerializer, LaminationSerializer, GlazingSerializer, ProfileSerializer, ConfigurationSerializer
+from .serializers import OrderSerializer, WindowSerializer, ConstructionSerializer, LaminationSerializer, GlazingSerializer, ProfileSerializer, ConfigurationSerializer
 
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
@@ -11,9 +11,9 @@ class WindowViewSet(viewsets.ModelViewSet):
     queryset = Window.objects.all()
     serializer_class = WindowSerializer
 
-class StructureViewSet(viewsets.ModelViewSet):
+class ConstructionViewSet(viewsets.ModelViewSet):
     queryset = Construction.objects.all()
-    serializer_class = StructureSerializer
+    serializer_class = ConstructionSerializer
 
 class LaminationViewSet(viewsets.ModelViewSet):
     queryset = Lamination.objects.all()

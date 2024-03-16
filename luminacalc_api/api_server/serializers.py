@@ -5,39 +5,51 @@ from .models import Order, Window, Construction, Lamination, Glazing, Profile, C
 class WindowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Window
-        fields = '__all__'
+        fields = ['id', 'width', 'height']
 
-class StructureSerializer(serializers.ModelSerializer):
-    windows = WindowSerializer(many=True, read_only=True)
+class ConstructionSerializer(serializers.ModelSerializer):
+    windows = WindowSerializer(many=True)
 
     class Meta:
         model = Construction
-        fields = '__all__'
+        fields = ['id', 'order', 'windows']
+
+    def create(self, validated_data):
+        windows_data = validated_data.pop('windows')
+        construction = Construction.objects.create(**validated_data)
+        for window_data in windows_data:
+            Window.objects.create(construction=construction, **window_data)
+        return construction
 
 class LaminationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lamination
-        fields = '__all__'
+        fields = ['id', 'name']
 
 class GlazingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Glazing
-        fields = '__all__'
+        fields = ['id', 'name']
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = '__all__'
+        fields = ['id', 'name']
 
 class ConfigurationSerializer(serializers.ModelSerializer):
+    lamination = LaminationSerializer(read_only=True)
+    glazing = GlazingSerializer(read_only=True)
+    profile = ProfileSerializer(read_only=True)
+    constructions = ConstructionSerializer(many=True, read_only=True)
+
     class Meta:
         model = Configuration
-        fields = '__all__'
+        fields = ['id', 'order', 'name', 'lamination', 'glazing', 'profile', 'constructions']
 
 class OrderSerializer(serializers.ModelSerializer):
-    structures = StructureSerializer(many=True, read_only=True)
     configurations = ConfigurationSerializer(many=True, read_only=True)
+    constructions = ConstructionSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order
-        fields = '__all__'
+        fields = ['id', 'order_number', 'measurer', 'created_at', 'customer_name', 'status', 'configurations', 'constructions']
