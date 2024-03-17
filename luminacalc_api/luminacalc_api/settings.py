@@ -27,9 +27,14 @@ SECRET_KEY = 'django-insecure-x^ebr7y8#yid8lu%1mx8)zhywccci+me_xdqxsb9d5czmjozbm
 DEBUG = True
 
 ALLOWED_HOSTS = ['luminacalc.site', 'www.luminacalc.site', '127.0.0.1']
+# CORS Configuration
+
 CORS_ALLOWED_ORIGINS = [
-    "http://luminacalc.site",
+    'http://localhost:3000',  # Замените на URL фронтенда, если он другой
+    'http://127.0.0.1:3000',  # Если фронтенд запускается локально
+    'http://luminacalc.site',
 ]
+CORS_ALLOW_CREDENTIALS = True
 # Application definition
 
 INSTALLED_APPS = [
